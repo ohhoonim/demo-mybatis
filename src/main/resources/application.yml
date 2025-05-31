@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: demo-mybatis
+  docker:
+    compose:
+      lifecycle-management: start-only
+  sql:
+    init:
+      mode: always
+  datasource:
+    hikari:
+      jdbc-url: jdbc:postgresql://localhost:5432/para
+      username: myuser
+      password: secret
+      driver-class-name: org.postgresql.Driver
+      connection-timeout: 3000
+      validation-timeout: 3000
+      minimum-idle: 5
+      max-lifetime: 240000
+      maximum-pool-size: 20
+mybatis:
+  mapper-locations: mapper/**/*.xml
+  type-aliases-package: dev.ohhoonim.demo_mybatis.para
+  type-handlers-package: dev.ohhoonim.demo_mybatis.typehandler
+  configuration:
+    jdbc-type-for-null: "NULL"
+    default-fetch-size: 1000
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    root: INFO
+    '[dev.ohhoonim.demo_mybatis.para]': TRACE

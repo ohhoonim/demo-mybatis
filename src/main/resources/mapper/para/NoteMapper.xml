@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.ohhoonim.demo_mybatis.para.NoteMapper">
+    <select id="findByTitle" parameterType="string" resultType="Note"> 
+        select id, title, content
+        from para_note where title like #{title} 
+    </select>
+    <insert id="insert" parameterType="Note"> 
+        insert into para_note (id, title, content) values (
+        #{note.id}, #{note.title}, #{note.content} ) 
+    </insert>
+</mapper>
