@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.ohhoonim.demo_mybatis.para.mapper.ProjectMapper">
+    <select id="findByTitle" parameterType="string" 
+    resultType="project"> 
+
+        select 
+            project_id,
+            title,
+            content,
+            start_date,
+            end_date,
+            status
+        from para_project
+        where title like '%'||#{title}||'%' 
+    </select>
+    <insert id="insert" parameterType="project"> 
+        insert into para_project
+            (project_id, title, content, start_date, end_date, status) 
+        values (
+              #{project.projectId}
+            , #{project.title}
+            , #{project.content}
+            , #{project.startDate}
+            , #{project.endDate}
+            , #{project.status}
+        )
+    </insert>
+</mapper>

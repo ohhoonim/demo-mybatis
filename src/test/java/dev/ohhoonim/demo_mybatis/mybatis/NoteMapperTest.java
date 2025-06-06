@@ -17,7 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import dev.ohhoonim.demo_mybatis.para.Note;
-import dev.ohhoonim.demo_mybatis.para.NoteMapper;
+import dev.ohhoonim.demo_mybatis.para.mapper.NoteMapper;
 
 @Testcontainers
 @RunWith(SpringRunner.class)
