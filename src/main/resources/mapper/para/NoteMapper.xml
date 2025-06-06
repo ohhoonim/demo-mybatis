@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dev.ohhoonim.demo_mybatis.para.NoteMapper">
+<mapper namespace="dev.ohhoonim.demo_mybatis.para.mapper.NoteMapper">
     <select id="findByTitle" parameterType="string" resultType="Note"> 
         select id, title, content
         from para_note where title like #{title} 

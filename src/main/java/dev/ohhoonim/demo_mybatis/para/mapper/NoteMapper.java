@@ -1,9 +1,11 @@
-package dev.ohhoonim.demo_mybatis.para;
+package dev.ohhoonim.demo_mybatis.para.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import dev.ohhoonim.demo_mybatis.para.Note;
 
 @Mapper
 public interface NoteMapper {

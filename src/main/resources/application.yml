@@ -23,7 +23,7 @@ mybatis:
   type-aliases-package: dev.ohhoonim.demo_mybatis.para
   type-handlers-package: dev.ohhoonim.demo_mybatis.typehandler
   configuration:
-    jdbc-type-for-null: "NULL"
+    jdbc-type-for-null: other 
     default-fetch-size: 1000
     map-underscore-to-camel-case: true
 
