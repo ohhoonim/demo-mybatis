@@ -27,3 +27,11 @@ comment on column para_project.content is '프로젝트 내용';
 comment on column para_project.start_date is '시작일';
 comment on column para_project.end_date is '종료일';
 comment on column para_project.status is '진행항태. backlog,ready, inprogress, done';
+
+create table if not exists para_project_note (
+    project_id varchar(36) not null,
+    note_id varchar(36) not null,
+    constraint pk_para_project_note primary key (project_id, note_id),
+    constraint fk_para_project_note_project_id foreign key (project_id) references para_project(project_id),
+    constraint fk_para_project_note_note_id foreign key (note_id) references para_note(id)
+);

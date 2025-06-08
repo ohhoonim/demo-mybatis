@@ -1,24 +1,28 @@
 package dev.ohhoonim.demo_mybatis.para;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Project {
     private UUID projectId;
     private String title;
     private String content;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private Period period;
     private String status;
 
-    
-    public Project(UUID projectId, String title, String content, LocalDateTime startDate, LocalDateTime endDate,
+    private List<Note> notes;
+
+    public Project() {
+        // default 생성자 넣어주기
+    }
+
+    public Project(UUID projectId, String title, String content, Period period,
             String status) {
         this.projectId = projectId;
         this.title = title;
         this.content = content;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.period = period;
         this.status = status;
     }
     public static Project of(UUID projectId, String title, String content, 
@@ -27,8 +31,7 @@ public class Project {
             projectId,
             title,
             content,
-            startDate,
-            endDate,
+            new Period(startDate, endDate),
             status
         );
     }
@@ -57,22 +60,6 @@ public class Project {
         this.content = content;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -80,6 +67,16 @@ public class Project {
     public void setStatus(String status) {
         this.status = status;
     }
-
-
+    public List<Note> getNotes() {
+        return notes;
+    }
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+    public Period getPeriod() {
+        return period;
+    }
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
 }
