@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.ohhoonim.demo_mybatis.para.mapper.NoteMapper">
-    <select id="findByTitle" parameterType="string" resultType="Note"> 
+    <sql id="note">
         select id, title, content
-        from para_note where title like #{title} 
+        from para_note 
+    </sql>
+
+    <select id="findByTitle" parameterType="string" resultType="Note"> 
+        <include refid="note"></include>
+        where title like '%'||#{title} ||'%'
     </select>
+
+    <select id="findById" parameterType="string" resultType="Note"> 
+        <include refid="note"></include>
+        where id = #{id} 
+    </select>
+
     <insert id="insert" parameterType="Note"> 
-        insert into para_note (id, title, content) values (
-        #{note.id}, #{note.title}, #{note.content} ) 
+        insert into para_note (id, title, content) 
+        values (#{note.id}, #{note.title}, #{note.content} ) 
     </insert>
 </mapper>

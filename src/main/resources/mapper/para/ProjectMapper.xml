@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.ohhoonim.demo_mybatis.para.mapper.ProjectMapper">
-    <select id="findByTitle" parameterType="string" 
-    resultType="project"> 
+    <resultMap id="containsNote" type="project">
+        <id property="projectId" column="p_projectId"/>
+        <result property="title" column="p_title"/>
+        <result property="content" column="p_content"/>
+        <result property="status" column="p_status"/>
+        <!-- <association property="period" column="period_id" javaType="period"> -->
+        <association property="period"  javaType="period">
+            <!-- <result property="periodId" column="period_id"/> -->
+            <result property="startDate" column="startDate"/>
+            <result property="endDate" column="endDate"/> 
+        </association>
+        <collection property="notes" ofType="note">
+            <id property="id" column="n_id"/>
+            <result property="title" column="n_title"/>
+            <result property="content" column="n_content"/>
+        </collection> 
+    </resultMap>
 
+    <sql id="project">
         select 
-            project_id,
-            title,
-            content,
-            start_date,
-            end_date,
-            status
+            project_id as p_projectId
+            , title as p_title
+            , content as p_content
+          /*  , project_id as period_id */
+            , start_date as startDate
+            , end_date as endDate
+            , status
         from para_project
+    </sql>
+
+    <!-- <select id="findByTitle" parameterType="string" resultType="project">  -->
+    <select id="findByTitle" parameterType="string" resultMap="containsNote"> 
+        <include refid="project"></include>
         where title like '%'||#{title}||'%' 
     </select>
+
+    <!-- <select id="findById" parameterType="string" resultType="project">  -->
+    <select id="findById" parameterType="string" resultMap="containsNote"> 
+        <include refid="project"></include>
+        where project_id = #{projectId}
+    </select>
+
     <insert id="insert" parameterType="project"> 
         insert into para_project
             (project_id, title, content, start_date, end_date, status) 
@@ -21,9 +50,45 @@
               #{project.projectId}
             , #{project.title}
             , #{project.content}
-            , #{project.startDate}
-            , #{project.endDate}
+            , #{project.period.startDate}
+            , #{project.period.endDate}
             , #{project.status}
         )
     </insert>
+
+    <insert id= "addNote" parameterType="map">
+        insert into para_project_note (project_id, note_id)
+        values(#{project.projectId}, #{note.id})
+
+    </insert>
+
+    <select id="notes" parameterType="project" resultType="note"> 
+        select 
+            n.id, n.title, n.content
+        from para_project_note p
+        join para_note n
+            on p.note_id = n.id
+        where p.project_id = #{project.projectId}
+    </select>
+
+
+    <select id="projectContainsNote" parameterType="project" resultMap="containsNote"> 
+        select 
+            p.project_id as p_projectId
+            , p.title as p_title
+            , p.content as p_content
+           /* , p.project_id as period_id */
+            , p.start_date as startDate
+            , p.end_date as endDate
+            , p.status as p_status
+            , n.id as n_id
+            , n.title as n_title
+            , n.content as n_content
+        from para_project_note pn
+        join para_project p
+            on pn.project_id = p.project_id
+        join para_note n
+            on pn.note_id = n.id
+        where pn.project_id = #{project.projectId}
+    </select>
 </mapper>
