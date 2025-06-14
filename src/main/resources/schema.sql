@@ -35,3 +35,25 @@ create table if not exists para_project_note (
     constraint fk_para_project_note_project_id foreign key (project_id) references para_project(project_id),
     constraint fk_para_project_note_note_id foreign key (note_id) references para_note(id)
 );
+
+create table if not exists para_shelf (
+    shelf_id varchar(36) not null,
+    shape varchar(10) not null, /* area, resource, archive */
+    title varchar(255),
+    content text,
+    constraint pk_para_shelf primary key (shelf_id)
+);
+
+comment on table para_shelf is 'area resource archive';
+comment on column para_shelf.shelf_id is 'id';
+comment on column para_shelf.shape is '구분. area, resource, archive';
+comment on column para_shelf.title is '제목';
+comment on column para_shelf.content is '내용';
+
+create table if not exists para_shelf_note (
+    shelf_id varchar(36) not null,
+    note_id varchar(36) not null,
+    constraint pk_para_shelf_note primary key (shelf_id, note_id),
+    constraint fk_para_shelf_note_shelf_id foreign key (shelf_id) references para_shelf(shelf_id),
+    constraint fk_para_shelf_note_note_id foreign key (note_id) references para_note(id)
+);

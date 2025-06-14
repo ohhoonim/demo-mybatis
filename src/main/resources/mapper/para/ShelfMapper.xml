@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.ohhoonim.demo_mybatis.para.mapper.ShelfMapper">
+    <sql id="paraShape">
+        select 
+            shelf_id
+            , shape
+            , title
+            , content
+        from para_shelf
+    </sql>
+
+    <select id="findShelfByCondition" parameterType="map" resultType="shelf">
+        <include refid="paraShape"/>
+        where 1=1
+        <if test="title != null and title != ''">
+            and title = #{title}
+        </if>
+    </select>
+
+    <!-- parameterType, resultType 안써줘도 되네? -->
+    <select id="findShelfContents">
+        <include refid="paraShape"/>
+        where 1=1
+        <choose>
+            <when test="shape != null and shape != '' and content != null">
+                and shape = #{shape}
+                and content like '%' || #{content} || '%'
+            </when>
+            <otherwise>
+                and content like '%' || #{content} || '%'
+            </otherwise>
+        </choose>  
+    </select>
+    
+    <select id="findShelfByShape">
+        <include refid="paraShape"/>
+        <where> <!-- update문 사용할 때는 <set> 도 있음 -->
+            <if test="shape != null and shape != ''">
+                and shape = #{shape}
+            </if>
+            <if test="content != null">
+                and content like '%' || #{content} || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="searchShapeNote">
+        <include refid="paraShape"/>
+        <where>
+            <foreach item="shape" index="idx" collection="shapes"
+                open="shape in (" separator="," close=")">
+                #{shape}
+        </foreach>
+        </where>
+    </select>
+
+    <!-- updateShelf는 <script> 예제 참조  -->
+    <update id="update">
+        update para_shelf
+        set
+            shape = #{shelf.shape}
+            , title = #{shelf.title}
+            , content = #{shelf.content}
+        where 
+            shelf_id = #{shelf.shelfId}
+    </update>
+
+    <insert id="insert">
+        insert into para_shelf( shelf_id, shape, title, content)
+        values(#{shelf.shelfId}
+            ,#{shelf.shape}
+            ,#{shelf.title}
+            ,#{shelf.content})
+    </insert>
+
+</mapper>
